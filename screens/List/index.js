@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Center, FlatList, HStack, Image, Pressable, Text, VStack } from "native-base";
 import shortid from "shortid";
 import { Dimensions, TouchableOpacity } from "react-native";
+import { SharedElement } from "react-navigation-shared-element";
 const WinWidth = Dimensions.get("window").width;
 const CARD_WIDTH = 250;
 const CARDS = [
@@ -48,7 +49,7 @@ const ICONS = [
     require("../../assets/coin_logos/tron.png"),
 ];
 
-const List = () => {
+const List = ({ navigation }) => {
     return (
         <Box flex={1}>
             <VStack flex={1} justifyContent="space-around">
@@ -67,16 +68,28 @@ const List = () => {
                 <Box p="5" justifyContent={"center"}>
                     <HStack flexWrap={"wrap"} justifyContent="space-between">
                         {ICONS.map((img, index) => (
-                            <TouchableOpacity key={index}>
-                                <Center size={30} rounded={"full"} m="5">
-                                    <Image
-                                        source={img}
-                                        alt={`${img}`}
-                                        style={{ width: "100%", height: "100%" }}
-                                        resizeMode="cover"
-                                    />
-                                </Center>
-                            </TouchableOpacity>
+                            <SharedElement key={index} id={`item.${index}.icon`}>
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={() => navigation.navigate("Details", { index })}
+                                >
+                                    <Center
+                                        size={30}
+                                        rounded={"full"}
+                                        m="5"
+                                        overflow={"hidden"}
+                                        bg={"white"}
+                                        shadow={3}
+                                    >
+                                        <Image
+                                            source={img}
+                                            alt={`${img}`}
+                                            style={{ width: "100%", height: "100%" }}
+                                            resizeMode="cover"
+                                        />
+                                    </Center>
+                                </TouchableOpacity>
+                            </SharedElement>
                         ))}
                     </HStack>
                 </Box>

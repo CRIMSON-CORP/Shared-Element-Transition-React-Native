@@ -1,7 +1,9 @@
 import React from "react";
-import { Box, Center, FlatList, HStack, Image, Text, VStack } from "native-base";
+import { Box, Center, FlatList, HStack, Image, Pressable, Text, VStack } from "native-base";
 import { TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 import shortid from "shortid";
+import { SharedElement } from "react-navigation-shared-element";
 const CARD_WIDTH = 250;
 const ICONS = [
     require("../../assets/coin_logos/bitcoin.png"),
@@ -56,23 +58,35 @@ const CARDS = [
         color: "emerald.300",
     },
 ];
-const Details = () => {
+const Details = ({ navigation }) => {
     return (
         <Box flex={1}>
+            <Pressable px="5" pt="3" pb="0" onPress={() => navigation.goBack()}>
+                <AntDesign name="left" size={24} />
+            </Pressable>
             <VStack flex={1} justifyContent="space-around">
                 <Box p="5" justifyContent={"center"}>
                     <HStack justifyContent="space-between">
                         {ICONS.map((img, index) => (
-                            <TouchableOpacity key={index}>
-                                <Center size={30} rounded={"full"} m="5">
-                                    <Image
-                                        source={img}
-                                        alt={`${img}`}
-                                        style={{ width: "100%", height: "100%" }}
-                                        resizeMode="cover"
-                                    />
-                                </Center>
-                            </TouchableOpacity>
+                            <SharedElement key={index} id={`item.${index}.icon`}>
+                                <TouchableOpacity key={index}>
+                                    <Center
+                                        size={30}
+                                        rounded={"full"}
+                                        m="5"
+                                        overflow={"hidden"}
+                                        bg={"white"}
+                                        shadow={3}
+                                    >
+                                        <Image
+                                            source={img}
+                                            alt={`${img}`}
+                                            style={{ width: "100%", height: "100%" }}
+                                            resizeMode="cover"
+                                        />
+                                    </Center>
+                                </TouchableOpacity>
+                            </SharedElement>
                         ))}
                     </HStack>
                 </Box>
@@ -91,6 +105,10 @@ const Details = () => {
             </VStack>
         </Box>
     );
+};
+
+Details.sharedElements = () => {
+    return ICONS.map((_, index) => `item.${index}.icon`);
 };
 
 export default Details;
