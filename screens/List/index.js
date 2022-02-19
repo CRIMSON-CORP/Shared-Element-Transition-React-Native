@@ -62,6 +62,9 @@ const List = ({ navigation }) => {
                         </Box>
                     )}
                     horizontal
+                    contentContainerStyle={{
+                        paddingLeft: WinWidth / 2 - CARD_WIDTH / 2,
+                    }}
                     snapToInterval={CARD_WIDTH + 40}
                     showsHorizontalScrollIndicator={false}
                 />

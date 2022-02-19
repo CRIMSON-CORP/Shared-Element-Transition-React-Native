@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Center, FlatList, HStack, Image, Pressable, Text, VStack } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import shortid from "shortid";
 import { SharedElement } from "react-navigation-shared-element";
+import Animated, {
+    Easing,
+    Extrapolate,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue,
+    withDelay,
+    withTiming,
+} from "react-native-reanimated";
 const CARD_WIDTH = 250;
 const ICONS = [
     require("../../assets/coin_logos/bitcoin.png"),
@@ -58,10 +67,40 @@ const CARDS = [
         color: "emerald.300",
     },
 ];
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const Details = ({ navigation }) => {
+    const FlatListAnimShared = useSharedValue(0);
+
+    const FlatListAnimatedStyles = useAnimatedStyle(() => ({
+        opacity: FlatListAnimShared.value,
+        transform: [
+            {
+                translateY: interpolate(
+                    FlatListAnimShared.value,
+                    [0, 1],
+                    [100, 0],
+                    Extrapolate.CLAMP
+                ),
+            },
+        ],
+    }));
+    useEffect(() => {
+        FlatListAnimShared.value = withDelay(
+            800,
+            withTiming(1, { easing: Easing.out(Easing.exp), duration: 2000 })
+        );
+    }, []);
     return (
         <Box flex={1}>
-            <Pressable px="5" pt="3" pb="0" onPress={() => navigation.goBack()}>
+            <Pressable
+                px="5"
+                pt="3"
+                pb="0"
+                onPress={() => {
+                    navigation.goBack(), (FlatListAnimShared.value = withTiming(0, 800));
+                }}
+            >
                 <AntDesign name="left" size={24} />
             </Pressable>
             <VStack flex={1} justifyContent="space-around">
@@ -90,8 +129,9 @@ const Details = ({ navigation }) => {
                         ))}
                     </HStack>
                 </Box>
-                <FlatList
+                <AnimatedFlatList
                     data={CARDS}
+                    style={FlatListAnimatedStyles}
                     keyExtractor={({ id }) => id}
                     renderItem={({ item }) => (
                         <Box bg={item.color} p={"5"} w={CARD_WIDTH} flex={1} rounded="3xl" m={5}>

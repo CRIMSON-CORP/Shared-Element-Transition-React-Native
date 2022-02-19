@@ -32,14 +32,14 @@ export default function App() {
                                     open: {
                                         animation: "timing",
                                         config: {
-                                            duration: 1000,
+                                            duration: 600,
                                             easing: Easing.inOut(Easing.quad),
                                         },
                                     },
                                     close: {
                                         animation: "timing",
                                         config: {
-                                            duration: 1000,
+                                            duration: 600,
                                             easing: Easing.inOut(Easing.quad),
                                         },
                                     },
