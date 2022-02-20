@@ -131,7 +131,12 @@ const Details = ({ navigation, route }) => {
                         style={[{ marginLeft: WinWidth / 2 - 50 }, AnimatedHStackStyles]}
                     >
                         {ICONS.map((img, index) => (
-                            <CenteredIcon img={img} index={index} key={index} />
+                            <CenteredIcon
+                                img={img}
+                                index={index}
+                                key={index}
+                                TranslateX={TranslateX}
+                            />
                         ))}
                     </AnimatedHStack>
                 </Box>
@@ -159,13 +164,24 @@ const Details = ({ navigation, route }) => {
     );
 };
 
-function CenteredIcon({ img, index }) {
+function CenteredIcon({ img, index, TranslateX }) {
     const AnimatedCenterStyles = useAnimatedStyle(() => ({
         transform: [
             {
-                scale: 1,
+                scale: interpolate(
+                    Math.abs(TranslateX.value / (CARD_WIDTH + 40)),
+                    [index - 1, index, index + 1],
+                    [1, 2, 1],
+                    Extrapolate.CLAMP
+                ),
             },
         ],
+        opacity: interpolate(
+            Math.abs(TranslateX.value / (CARD_WIDTH + 40)),
+            [index - 1, index, index + 1],
+            [0.5, 1, 0.5],
+            Extrapolate.CLAMP
+        ),
     }));
     return (
         <SharedElement key={index} id={`item.${index}.icon`}>
@@ -177,7 +193,7 @@ function CenteredIcon({ img, index }) {
                     overflow={"hidden"}
                     bg={"white"}
                     shadow={3}
-                    // style={AnimatedCenterStyles}
+                    style={AnimatedCenterStyles}
                 >
                     <Image
                         source={img}
