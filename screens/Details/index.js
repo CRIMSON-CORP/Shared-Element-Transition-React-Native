@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Box, Center, FlatList, HStack, Image, Pressable, Text, VStack } from "native-base";
-import { Dimensions, TouchableOpacity } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Box, Center, HStack, Image, Pressable, Text, VStack } from "native-base";
+import { Dimensions, TouchableOpacity, FlatList, TouchableHighlight } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import shortid from "shortid";
 import { SharedElement } from "react-navigation-shared-element";
@@ -78,6 +78,7 @@ const Details = ({ navigation, route }) => {
     const Index = useSharedValue(route.params.index);
     const TranslateX = useSharedValue(-(Index.value * (CARD_WIDTH + 40)));
     const ActiveIcon = useSharedValue(route.params.index);
+    const SliderRef = useRef();
     const FlatListAnimatedStyles = useAnimatedStyle(() => ({
         opacity: FlatListAnimShared.value,
         transform: [
@@ -136,12 +137,15 @@ const Details = ({ navigation, route }) => {
                                 index={index}
                                 key={index}
                                 TranslateX={TranslateX}
+                                selected={route.params.index}
+                                FlatListRef={SliderRef}
                             />
                         ))}
                     </AnimatedHStack>
                 </Box>
                 <AnimatedFlatList
                     data={CARDS}
+                    ref={SliderRef}
                     style={FlatListAnimatedStyles}
                     keyExtractor={({ id }) => id}
                     renderItem={({ item }) => (
@@ -164,7 +168,7 @@ const Details = ({ navigation, route }) => {
     );
 };
 
-function CenteredIcon({ img, index, TranslateX }) {
+function CenteredIcon({ img, index, TranslateX, FlatListRef }) {
     const AnimatedCenterStyles = useAnimatedStyle(() => ({
         transform: [
             {
@@ -185,7 +189,15 @@ function CenteredIcon({ img, index, TranslateX }) {
     }));
     return (
         <SharedElement key={index} id={`item.${index}.icon`}>
-            <TouchableOpacity key={index}>
+            <Pressable
+                key={index}
+                onPress={function () {
+                    FlatListRef.current.scrollToIndex({
+                        animatd: true,
+                        index,
+                    });
+                }}
+            >
                 <AnimatedCenter
                     size={30}
                     rounded={"full"}
@@ -202,7 +214,7 @@ function CenteredIcon({ img, index, TranslateX }) {
                         resizeMode="cover"
                     />
                 </AnimatedCenter>
-            </TouchableOpacity>
+            </Pressable>
         </SharedElement>
     );
 }
