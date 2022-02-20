@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Center, FlatList, HStack, Image, Pressable, Text, VStack } from "native-base";
-import { TouchableOpacity } from "react-native";
+import { Dimensions, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import shortid from "shortid";
 import { SharedElement } from "react-navigation-shared-element";
@@ -8,11 +8,13 @@ import Animated, {
     Easing,
     Extrapolate,
     interpolate,
+    runOnJS,
     useAnimatedStyle,
     useSharedValue,
     withDelay,
     withTiming,
 } from "react-native-reanimated";
+const WinWidth = Dimensions.get("window").width;
 const CARD_WIDTH = 250;
 const ICONS = [
     require("../../assets/coin_logos/bitcoin.png"),
@@ -69,9 +71,13 @@ const CARDS = [
 ];
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-const Details = ({ navigation }) => {
+const AnimatedHStack = Animated.createAnimatedComponent(HStack);
+const AnimatedCenter = Animated.createAnimatedComponent(Center);
+const Details = ({ navigation, route }) => {
     const FlatListAnimShared = useSharedValue(0);
-
+    const Index = useSharedValue(route.params.index);
+    const TranslateX = useSharedValue(-(Index.value * (CARD_WIDTH + 40)));
+    const ActiveIcon = useSharedValue(route.params.index);
     const FlatListAnimatedStyles = useAnimatedStyle(() => ({
         opacity: FlatListAnimShared.value,
         transform: [
@@ -91,6 +97,19 @@ const Details = ({ navigation }) => {
             withTiming(1, { easing: Easing.out(Easing.exp), duration: 2000 })
         );
     }, []);
+
+    const AnimatedHStackStyles = useAnimatedStyle(() => ({
+        transform: [
+            {
+                translateX: interpolate(
+                    TranslateX.value,
+                    [0, -((CARD_WIDTH + 40) * CARDS.length)],
+                    [0, -70 * ICONS.length]
+                ),
+            },
+        ],
+    }));
+
     return (
         <Box flex={1}>
             <Pressable
@@ -98,36 +117,23 @@ const Details = ({ navigation }) => {
                 pt="3"
                 pb="0"
                 onPress={() => {
-                    navigation.goBack(), (FlatListAnimShared.value = withTiming(0, 800));
+                    FlatListAnimShared.value = withTiming(0, {}, () =>
+                        runOnJS(navigation.goBack)()
+                    );
                 }}
             >
                 <AntDesign name="left" size={24} />
             </Pressable>
             <VStack flex={1} justifyContent="space-around">
                 <Box p="5" justifyContent={"center"}>
-                    <HStack justifyContent="space-between">
+                    <AnimatedHStack
+                        justifyContent="space-between"
+                        style={[{ marginLeft: WinWidth / 2 - 50 }, AnimatedHStackStyles]}
+                    >
                         {ICONS.map((img, index) => (
-                            <SharedElement key={index} id={`item.${index}.icon`}>
-                                <TouchableOpacity key={index}>
-                                    <Center
-                                        size={30}
-                                        rounded={"full"}
-                                        m="5"
-                                        overflow={"hidden"}
-                                        bg={"white"}
-                                        shadow={3}
-                                    >
-                                        <Image
-                                            source={img}
-                                            alt={`${img}`}
-                                            style={{ width: "100%", height: "100%" }}
-                                            resizeMode="cover"
-                                        />
-                                    </Center>
-                                </TouchableOpacity>
-                            </SharedElement>
+                            <CenteredIcon img={img} index={index} key={index} />
                         ))}
-                    </HStack>
+                    </AnimatedHStack>
                 </Box>
                 <AnimatedFlatList
                     data={CARDS}
@@ -141,11 +147,49 @@ const Details = ({ navigation }) => {
                     horizontal
                     snapToInterval={CARD_WIDTH + 40}
                     showsHorizontalScrollIndicator={false}
+                    initialScrollIndex={Index.value}
+                    onScroll={(e) => {
+                        TranslateX.value = -e.nativeEvent.contentOffset.x;
+
+                        ActiveIcon.value = e.nativeEvent.contentOffset.x / WinWidth;
+                    }}
                 />
             </VStack>
         </Box>
     );
 };
+
+function CenteredIcon({ img, index }) {
+    const AnimatedCenterStyles = useAnimatedStyle(() => ({
+        transform: [
+            {
+                scale: 1,
+            },
+        ],
+    }));
+    return (
+        <SharedElement key={index} id={`item.${index}.icon`}>
+            <TouchableOpacity key={index}>
+                <AnimatedCenter
+                    size={30}
+                    rounded={"full"}
+                    m="5"
+                    overflow={"hidden"}
+                    bg={"white"}
+                    shadow={3}
+                    // style={AnimatedCenterStyles}
+                >
+                    <Image
+                        source={img}
+                        alt={`${img}`}
+                        style={{ width: "100%", height: "100%" }}
+                        resizeMode="cover"
+                    />
+                </AnimatedCenter>
+            </TouchableOpacity>
+        </SharedElement>
+    );
+}
 
 Details.sharedElements = () => {
     return ICONS.map((_, index) => `item.${index}.icon`);
