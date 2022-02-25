@@ -6,7 +6,7 @@ import { enableScreens } from "react-native-screens";
 import SharedFirst from "./screens";
 import Timer from "./TimerApp";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import SliderCards from "./SliderCars";
+import SliderCards from "./Shared3";
 enableScreens();
 export default function App() {
     return (
