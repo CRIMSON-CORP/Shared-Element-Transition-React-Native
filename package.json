@@ -13,6 +13,7 @@
     "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/stack": "^6.1.1",
+    "@use-expo/font": "^2.0.0",
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",
     "native-base": "^3.3.7",

@@ -10,14 +10,11 @@ import SliderCards from "./Shared3";
 enableScreens();
 export default function App() {
     return (
-        <NativeBaseProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <NavigationContainer>
-                    <StatusBar backgroundColor={"transparent"} translucent={true} />
-                    <SliderCards />
-                </NavigationContainer>
-            </GestureHandlerRootView>
-        </NativeBaseProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <NavigationContainer>
+                <SliderCards />
+            </NavigationContainer>
+        </GestureHandlerRootView>
     );
 }
 
