@@ -1,4 +1,4 @@
-import { Center, Heading, HStack, Image, VStack, ZStack } from "native-base";
+import { Center, Heading, HStack, Image, VStack, ZStack, Text } from "native-base";
 import { Assest } from "../../assets";
 const index = () => {
     return (
@@ -6,11 +6,22 @@ const index = () => {
             <Heading fontSize={"md"} fontWeight={"200"}>
                 Your Team
             </Heading>
-            <ZStack flexDirection={"row"}>
+            <HStack flexDirection={"row"}>
                 {Assest.images.team.map((img, index) => {
                     return <Avatar img={img} key={index} index={index} />;
                 })}
-            </ZStack>
+                <Center
+                    rounded="full"
+                    size={36}
+                    shadow={8}
+                    bg="#2C2C2C"
+                    borderColor={"#767676"}
+                    borderWidth={1}
+                    ml={-3}
+                >
+                    <Text>+23</Text>
+                </Center>
+            </HStack>
         </VStack>
     );
 };
