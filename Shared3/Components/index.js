@@ -3,6 +3,7 @@ import { Box, Container, Text, useTheme, VStack } from "native-base";
 import { StatusBar } from "react-native";
 import Header from "./Header";
 import Main from "./Main";
+import Footer from "./Footer";
 const App = () => {
     const { colors } = useTheme();
     return (
@@ -18,6 +19,7 @@ const App = () => {
                 <VStack space={30}>
                     <Header />
                     <Main />
+                    <Footer />
                 </VStack>
             </Box>
         </Container>
