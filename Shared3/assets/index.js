@@ -9,6 +9,11 @@ export const Assest = {
             require("./images/team/jessica-radanavong-D6t70k8F28w-unsplash.jpg"),
             require("./images/team/tamara-bellis-eDVQwVMLMgU-unsplash.jpg"),
         ],
+        locations: {
+            japan: require("./images/travels/johannes-plenio-qkfxBc2NQ18-unsplash.jpg"),
+            ireland: require("./images/travels/krystal-ng-jRp60R7ogNQ-unsplash.jpg"),
+            canada: require("./images/travels/luca-bravo-VowIFDxogG4-unsplash.jpg"),
+        },
     },
     fonts: {
         Roboto: {
