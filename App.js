@@ -10,11 +10,11 @@ import SliderCards from "./Shared3";
 enableScreens();
 export default function App() {
     return (
-        <GestureHandlerRootView style={{ flex: 1 }}>
-            <NavigationContainer>
+        <NavigationContainer>
+            <GestureHandlerRootView style={{ flex: 1 }}>
                 <SliderCards />
-            </NavigationContainer>
-        </GestureHandlerRootView>
+            </GestureHandlerRootView>
+        </NavigationContainer>
     );
 }
 

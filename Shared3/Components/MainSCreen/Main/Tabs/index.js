@@ -2,8 +2,8 @@ import { Center, HStack, Text, useTheme } from "native-base";
 import { createRef, useContext, useEffect, useRef, useState } from "react";
 import { Dimensions } from "react-native";
 import Animated, { interpolate, useAnimatedStyle } from "react-native-reanimated";
-import { MainContext } from "../../../contexts";
-import { data } from "../../../data";
+import { MainContext } from "../../../../contexts";
+import { data } from "../../../../data";
 const { width, height } = Dimensions.get("window");
 const CARD_WIDTH = width - 40;
 data.map((d) => {

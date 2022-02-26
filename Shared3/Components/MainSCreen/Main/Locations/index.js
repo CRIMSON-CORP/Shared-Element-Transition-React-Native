@@ -1,8 +1,8 @@
 import { FlatList, Text, Box } from "native-base";
 import React, { useContext } from "react";
 import { Dimensions } from "react-native";
-import { MainContext } from "../../../contexts";
-import { data } from "../../../data";
+import { MainContext } from "../../../../contexts";
+import { data } from "../../../../data";
 const { width, height } = Dimensions.get("window");
 const CARD_WIDTH = width - 40;
 const CARD_HEIGHT = height * 0.6;
