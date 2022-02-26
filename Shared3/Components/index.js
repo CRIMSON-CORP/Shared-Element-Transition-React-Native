@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Container, Text, useTheme, VStack } from "native-base";
 import { StatusBar } from "react-native";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
+import Header from "./MainScreen/Header";
+import Main from "./MainScreen/Main";
+import Footer from "./MainScreen/Footer";
 const App = () => {
     const { colors } = useTheme();
     return (
