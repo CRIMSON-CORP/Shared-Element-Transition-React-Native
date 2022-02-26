@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container, Text, useTheme, VStack } from "native-base";
 import { StatusBar } from "react-native";
 import Header from "./Header";
+import Main from "./Main";
 const App = () => {
     const { colors } = useTheme();
     return (
@@ -14,8 +15,9 @@ const App = () => {
         >
             <StatusBar backgroundColor={"transparent"} translucent={true} />
             <Box p={5} flex={1} w="full">
-                <VStack>
+                <VStack space={30}>
                     <Header />
+                    <Main />
                 </VStack>
             </Box>
         </Container>

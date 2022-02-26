@@ -37,6 +37,12 @@ export const theme = extendTheme({
     config: {
         initialColorMode: "light",
     },
+    fontSizes: {
+        sm: 10,
+        md: 14,
+        lg: 20,
+        xl: 28,
+    },
     components: {
         Heading: {
             baseStyle: {
