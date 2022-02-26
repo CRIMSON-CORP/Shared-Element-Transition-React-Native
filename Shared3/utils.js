@@ -1,5 +1,4 @@
 import { extendTheme } from "native-base";
-import { Assest } from "./assets";
 export const theme = extendTheme({
     colors: {
         accent: "#E9DF00",
@@ -7,13 +6,49 @@ export const theme = extendTheme({
         circleStroke: "#767676",
     },
     fonts: {
-        heading: Assest.fonts.Roboto["Roboto.400"],
-        body: Assest.fonts.Roboto["Roboto.200"],
+        heading: "Roboto",
+        body: "Roboto",
     },
     fontSizes: {
         xl: 28,
         lg: 20,
         md: 14,
         sm: 10,
+    },
+    fontConfig: {
+        Roboto: {
+            100: {
+                normal: "Roboto.100",
+            },
+            200: {
+                normal: "Roboto.200",
+            },
+            300: {
+                normal: "Roboto.300",
+            },
+            400: {
+                normal: "Roboto.400",
+            },
+            500: {
+                normal: "Roboto.500",
+            },
+        },
+    },
+    config: {
+        initialColorMode: "light",
+    },
+    components: {
+        Heading: {
+            baseStyle: {
+                color: "white",
+                fontWeight: "500",
+            },
+        },
+        Text: {
+            baseStyle: {
+                color: "white",
+                fontWeight: "300",
+            },
+        },
     },
 });

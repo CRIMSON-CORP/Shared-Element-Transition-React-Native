@@ -17,7 +17,7 @@ export const Assest = {
             "Roboto.300": require("./fonts/Roboto-Regular.ttf"),
             "Roboto.400": require("./fonts/Roboto-Medium.ttf"),
             "Roboto.400": require("./fonts/Roboto-Bold.ttf"),
-            "Roboto.400": require("./fonts/Roboto-Black.ttf"),
+            "Roboto.500": require("./fonts/Roboto-Black.ttf"),
         },
     },
 };
