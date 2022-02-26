@@ -8,7 +8,7 @@ const index = () => {
     const [TabsMeasurments, setTabsMeasurments] = useState([]);
     return (
         <MainContext.Provider value={{ TabsMeasurments, setTabsMeasurments }}>
-            <VStack>
+            <VStack space={41}>
                 <Tabs />
                 <Locations />
             </VStack>
