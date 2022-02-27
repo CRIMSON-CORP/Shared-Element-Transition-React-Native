@@ -19,7 +19,7 @@ import { Assest } from "../assets";
 import DetailsScreenExp from "./DetailsScreenExp";
 import { MainContext } from "../contexts";
 import Tabs from "./MainSCreen/Main/Tabs";
-import { useSharedValue } from "react-native-reanimated";
+import { Easing, useSharedValue } from "react-native-reanimated";
 import { data } from "../data";
 import { LinearGradient } from "expo-linear-gradient";
 const SharedStack = createSharedElementStackNavigator();
@@ -32,7 +32,25 @@ const App = () => {
             }}
         >
             <SharedStack.Screen name="MainScreen" component={MainScreen} />
-            <SharedStack.Screen name="DetailsScreen" component={DetailsScreenExp} />
+            <SharedStack.Screen
+                name="DetailsScreen"
+                component={DetailsScreenExp}
+                options={{
+                    cardStyle: {
+                        backgroundColor: "yellow",
+                    },
+                    transitionSpec: {
+                        open: {
+                            animation: "timing",
+                            config: { duration: 1000, easing: Easing.out(Easing.exp) },
+                        },
+                        close: {
+                            animation: "timing",
+                            config: { duration: 700, easing: Easing.out(Easing.exp) },
+                        },
+                    },
+                }}
+            />
         </SharedStack.Navigator>
     );
 };
@@ -66,17 +84,18 @@ function MainScreen({ navigation }) {
                             <FlatList
                                 data={data[0].sites}
                                 keyExtractor={(d) => d.id}
-                                horizontal
                                 showsHorizontalScrollIndicator={false}
                                 bounces={false}
-                                snapToInterval={CARD_WIDTH}
-                                overflow={"visible"}
+                                snapToInterval={CARD_WIDTH + 20}
                                 contentContainerStyle={{
                                     overflow: "visible",
                                     position: "relative",
+                                    height: height * 0.6,
+                                    width: "100%",
                                 }}
                                 decelerationRate={100}
                                 onScroll={(e) => {
+                                    console.log(e.nativeEvent.contentOffset.x);
                                     Scroll.value = e.nativeEvent.contentOffset.x;
                                 }}
                                 onMomentumScrollEnd={(e) => {
@@ -89,82 +108,85 @@ function MainScreen({ navigation }) {
                                         onPress={() =>
                                             navigation.navigate("DetailsScreen", { card })
                                         }
+                                        w={CARD_WIDTH}
+                                        h={CARD_HEIGHT}
                                         key={card.id}
                                     >
-                                        <Box
-                                            w={CARD_WIDTH}
-                                            h={CARD_HEIGHT}
-                                            rounded={20}
-                                            mr={20 / 4}
-                                            overflow="hidden"
-                                        >
-                                            <SharedElement
-                                                id={`item.${card.id}.image`}
-                                                style={[StyleSheet.absoluteFill]}
+                                        <Box style={[StyleSheet.absoluteFill]}>
+                                            <Box
+                                                w={CARD_WIDTH}
+                                                h={CARD_HEIGHT}
+                                                rounded={20}
+                                                mr={20 / 4}
+                                                overflow="hidden"
                                             >
-                                                <Image
-                                                    source={card.img}
-                                                    alt={card.location.city}
-                                                    style={[
-                                                        StyleSheet.absoluteFill,
-                                                        {
-                                                            width: CARD_WIDTH,
-                                                            height: CARD_HEIGHT,
-                                                            resizeMode: "cover",
-                                                            borderRadius: 20,
-                                                        },
-                                                    ]}
-                                                />
-                                            </SharedElement>
-                                            <SharedElement id={`item.${card.id}.gradient`}>
-                                                <LinearGradient
-                                                    colors={[
-                                                        "rgba(0, 0, 0, 0)",
-                                                        "rgba(0, 0, 0, 0.53)",
-                                                        "rgba(0, 0, 0, 0.82)",
-                                                    ]}
-                                                    location={[0.0, 0.776, 0.1]}
-                                                    start={{ x: 0.5, y: 0 }}
-                                                    end={{ x: 0.5, y: 1 }}
-                                                    style={[
-                                                        StyleSheet.absoluteFill,
-                                                        {
-                                                            zIndex: 4,
-                                                            width: CARD_WIDTH,
-                                                            height: CARD_HEIGHT,
-                                                        },
-                                                    ]}
-                                                />
-                                            </SharedElement>
-                                            <VStack
-                                                space={11}
-                                                position="absolute"
-                                                zIndex={5}
-                                                bottom={5}
-                                                p={5}
-                                            >
-                                                <SharedElement id={`item.${card.id}.text`}>
-                                                    <Heading
-                                                        textTransform={"uppercase"}
-                                                        fontSize={"xl"}
-                                                    >
-                                                        {card.location.city}
-                                                    </Heading>
-                                                </SharedElement>
-                                                <HStack space={11} alignItems="center">
-                                                    <Center
-                                                        size={8.87}
-                                                        bg={colors.accent}
-                                                        rounded="full"
+                                                <SharedElement
+                                                    id={`item.${card.id}.image`}
+                                                    style={[StyleSheet.absoluteFill]}
+                                                >
+                                                    <Image
+                                                        source={card.img}
+                                                        alt={card.location.city}
+                                                        style={[
+                                                            {
+                                                                width: CARD_WIDTH,
+                                                                height: CARD_HEIGHT,
+                                                                resizeMode: "cover",
+                                                                borderRadius: 20,
+                                                            },
+                                                        ]}
                                                     />
-                                                    <Text
-                                                        textTransform={"uppercase"}
-                                                        fontSize={"md"}
-                                                    >
-                                                        {card.location.country}
-                                                    </Text>
-                                                </HStack>
-                                            </VStack>
+                                                </SharedElement>
+                                                <SharedElement id={`item.${card.id}.gradient`}>
+                                                    <LinearGradient
+                                                        colors={[
+                                                            "rgba(0, 0, 0, 0)",
+                                                            "rgba(0, 0, 0, 0.53)",
+                                                            "rgba(0, 0, 0, 0.82)",
+                                                        ]}
+                                                        location={[0.0, 0.776, 0.1]}
+                                                        start={{ x: 0.5, y: 0 }}
+                                                        end={{ x: 0.5, y: 1 }}
+                                                        style={[
+                                                            StyleSheet.absoluteFill,
+                                                            {
+                                                                zIndex: 4,
+                                                                width: CARD_WIDTH,
+                                                                height: CARD_HEIGHT,
+                                                            },
+                                                        ]}
+                                                    />
+                                                </SharedElement>
+                                                <VStack
+                                                    space={11}
+                                                    position="absolute"
+                                                    zIndex={5}
+                                                    bottom={5}
+                                                    p={5}
+                                                >
+                                                    <SharedElement id={`item.${card.id}.text`}>
+                                                        <Heading
+                                                            textTransform={"uppercase"}
+                                                            fontSize={"xl"}
+                                                        >
+                                                            {card.location.city}
+                                                        </Heading>
+                                                    </SharedElement>
+                                                    <HStack space={11} alignItems="center">
+                                                        <Center
+                                                            size={8.87}
+                                                            bg={colors.accent}
+                                                            rounded="full"
+                                                        />
+                                                        <Text
+                                                            textTransform={"uppercase"}
+                                                            fontSize={"md"}
+                                                        >
+                                                            {card.location.country}
+                                                        </Text>
+                                                    </HStack>
+                                                </VStack>
+                                            </Box>
                                         </Box>
                                     </Pressable>
                                 )}

@@ -48,7 +48,7 @@ function Indicator() {
     const TabsXValues = TabsMeasurments.map((tab) => tab.x + tab.width / 2);
     const TabWidths = TabsMeasurments.map((_, index) => index * CARD_WIDTH);
     const AnimatedLeft = useAnimatedStyle(() => ({
-        transform: [{ translateX: interpolate(Scroll.value, TabWidths, TabsXValues) }],
+        transform: [{ translateX: 15 }],
     }));
     return (
         <AnimatedCenter

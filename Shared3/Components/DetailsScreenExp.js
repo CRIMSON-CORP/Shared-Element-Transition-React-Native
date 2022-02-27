@@ -25,7 +25,7 @@ function DetailsScreenExp({ navigation, route }) {
     const VisitorsRef = useRef();
     const DistanceRef = useRef();
     const HeightRef = useRef();
-    let Stagger = 0;
+    let Stagger = 600;
     const Entering = (delay) => {
         Stagger += 200;
         return FadeInDown.duration(2000).easing(Easing.out(Easing.exp)).delay(Stagger);
@@ -42,13 +42,7 @@ function DetailsScreenExp({ navigation, route }) {
                     top: 60,
                     zIndex: 5,
                 }}
-                onPress={() => {
-                    Promise.all([
-                        VisitorsRef.current.FadeInUp,
-                        DistanceRef.current.FadeInUp,
-                        HeightRef.current.FadeInUp,
-                    ]).then(() => navigation.goBack());
-                }}
+                onPress={() => navigation.goBack()}
             />
             <SharedElement
                 id={`item.${route.params.card.id}.image`}
