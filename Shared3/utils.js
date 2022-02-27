@@ -12,8 +12,9 @@ export const theme = extendTheme({
     fontSizes: {
         xl: 28,
         lg: 20,
-        md: 14,
+        md: 16,
         sm: 10,
+        "2xl": 48,
     },
     fontConfig: {
         Roboto: {
@@ -54,6 +55,11 @@ export const theme = extendTheme({
             baseStyle: {
                 color: "white",
                 fontWeight: "300",
+                sizes: {
+                    md: {
+                        fontSize: 16,
+                    },
+                },
             },
         },
     },

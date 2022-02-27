@@ -40,13 +40,12 @@ const AnimatedCenter = Animated.createAnimatedComponent(Center);
 function Indicator() {
     const { colors } = useTheme();
     const { TabsMeasurments, Scroll, Index } = useContext(MainContext);
-    const index = 0;
-    let tabLeft = TabsMeasurments[index].x;
-    let taboffsetwidth = TabsMeasurments[index].width / 2;
+    let tabLeft = TabsMeasurments[Index.value].x;
+    let taboffsetwidth = TabsMeasurments[Index.value].width / 2;
     let offset = tabLeft + taboffsetwidth;
     offset = offset - 4;
 
-    const TabsXValues = TabsMeasurments.map((tab) => tab.x + (tab.width / 2 - 4));
+    const TabsXValues = TabsMeasurments.map((tab) => tab.x + tab.width / 2);
     const TabWidths = TabsMeasurments.map((_, index) => index * CARD_WIDTH);
     const AnimatedLeft = useAnimatedStyle(() => ({
         transform: [{ translateX: interpolate(Scroll.value, TabWidths, TabsXValues) }],
