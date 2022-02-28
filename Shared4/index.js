@@ -1,9 +1,8 @@
-import { View, Text, FlatList, Dimensions, StatusBar, StyleSheet } from "react-native";
+import { Text, FlatList, Dimensions, StatusBar, StyleSheet, View } from "react-native";
 import React from "react";
 import {
     Box,
     Container,
-    Heading,
     HStack,
     NativeBaseProvider,
     VStack,
@@ -15,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Assest } from "../Shared3/assets";
 import { useFonts } from "@use-expo/font";
 import { AntDesign } from "@expo/vector-icons";
-import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import { createSharedElementStackNavigator, SharedElement } from "react-navigation-shared-element";
 const data = [
     {
         id: 0,
@@ -35,7 +34,7 @@ const data = [
         img: require("./assets/images/food.png"),
         liked: false,
         price: 2.99,
-        bg: "#FFA318",
+        bg: "#81c784",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus phasellus in integer molestie. Vulputate enim, dignissim risus rhoncus eu. Eleifend in laoreet nisl aenean tristique ac. Adipiscing dapibus risus faucibus purus, diam eget felis gravida.",
     },
@@ -46,7 +45,7 @@ const data = [
         img: require("./assets/images/food.png"),
         liked: false,
         price: 2.99,
-        bg: "#FFA318",
+        bg: "#ffa726",
         description:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus phasellus in integer molestie. Vulputate enim, dignissim risus rhoncus eu. Eleifend in laoreet nisl aenean tristique ac. Adipiscing dapibus risus faucibus purus, diam eget felis gravida.",
     },
@@ -62,18 +61,30 @@ const FoodCard = () => {
     const [Loading] = useFonts(Assest.fonts.Roboto);
     return (
         <NativeBaseProvider>
-            <StatusBar backgroundColor={"white"} />
             {Loading && (
                 <SharedStack.Navigator
                     screenOptions={{
                         headerMode: "none",
-                        cardStyle: {
-                            backgroundColor: "white",
-                        },
+                        cardStyle: [{ backgroundColor: "white" }, StyleSheet.absoluteFill],
                     }}
                 >
                     <SharedStack.Screen name="MainScreen" component={MainScreen} />
-                    <SharedStack.Screen name="Detail" component={Detail} />
+                    <SharedStack.Screen
+                        name="Detail"
+                        component={Detail}
+                        options={{
+                            transitionSpec: {
+                                open: {
+                                    animation: "timing",
+                                    config: { duration: 400 },
+                                },
+                                close: {
+                                    animation: "timing",
+                                    config: { duration: 400 },
+                                },
+                            },
+                        }}
+                    />
                 </SharedStack.Navigator>
             )}
         </NativeBaseProvider>
@@ -84,7 +95,7 @@ export default FoodCard;
 function MainScreen({ navigation }) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <Container flex={1} maxWidth={"full"} p={5} pt={2}>
+            <Container flex={1} maxWidth={"full"} p={5}>
                 <VStack space={"8"}>
                     <Header />
                     <Tabs />
@@ -146,15 +157,31 @@ function MainScreen({ navigation }) {
 
     function Card({ item, navigation }) {
         return (
-            <Pressable onPress={() => navigation.navigate("Detail", item)}>
-                <Box
-                    w={CARD_WIDTH}
-                    h={CARD_HEIGHT}
-                    rounded={CARD_BORDER_RADIUS * 1.1}
-                    mr={CARD_SPACE / 4}
-                    bg={item.bg}
-                    p="4"
-                    shadow={"5"}
+            <Pressable
+                onPress={() => navigation.navigate("Detail", item)}
+                style={{
+                    width: CARD_WIDTH,
+                    height: CARD_HEIGHT,
+                    marginRight: CARD_SPACE / 4,
+                    elevation: 5,
+                }}
+            >
+                <SharedElement id={`item.${item.id}.bg`} style={[StyleSheet.absoluteFill]}>
+                    <View
+                        style={[
+                            StyleSheet.absoluteFill,
+                            {
+                                borderRadius: 16,
+                                width: CARD_WIDTH,
+                                height: CARD_HEIGHT,
+                                backgroundColor: item.bg,
+                            },
+                        ]}
+                    />
+                </SharedElement>
+                <SharedElement
+                    id={`item.${item.id}.title`}
+                    style={{ position: "absolute", top: 20, left: 20 }}
                 >
                     <VStack flex={1}>
                         <RText style={{ fontSize: 20 }}>Salad Toppings</RText>
@@ -162,6 +189,8 @@ function MainScreen({ navigation }) {
                             Lorem ipsum dolor sit amet,
                         </RText>
                     </VStack>
+                </SharedElement>
+                <SharedElement id={`item.${item.id}.image`} style={StyleSheet.absoluteFill}>
                     <Image
                         source={item.img}
                         style={{
@@ -175,22 +204,7 @@ function MainScreen({ navigation }) {
                         }}
                         alt="Food"
                     />
-                    {item.liked ? (
-                        <AntDesign
-                            name="heart"
-                            size={24}
-                            color="white"
-                            style={{ alignSelf: "flex-end", elevation: 4 }}
-                        />
-                    ) : (
-                        <AntDesign
-                            name="hearto"
-                            size={24}
-                            color="white"
-                            style={{ alignSelf: "flex-end", elevation: 4 }}
-                        />
-                    )}
-                </Box>
+                </SharedElement>
             </Pressable>
         );
     }
@@ -216,51 +230,87 @@ function RText({ children, style, light, white, ...props }) {
 function Detail({ navigation, route }) {
     const item = route.params;
     return (
-        <Container flex={1} maxWidth={"full"} style={StyleSheet.absoluteFill}>
-            <Box
-                w={width}
-                h={height}
-                rounded={CARD_BORDER_RADIUS * 1.1}
-                bg={item.bg}
-                p="4"
-                style={StyleSheet.absoluteFill}
-            >
-                <VStack flex={1}>
-                    <RText style={{ fontSize: 20 }}>Salad Toppings</RText>
-                    <RText light style={{ fontSize: 12 }}>
-                        Lorem ipsum dolor sit amet,
-                    </RText>
-                </VStack>
-                <Image
-                    source={item.img}
-                    style={{
-                        resizeMode: "contain",
-                        width: 200,
-                        height: 200,
-                        alignSelf: "center",
-                        transform: [{ translateX: -10 }],
-                        position: "absolute",
-                        bottom: undefined,
-                        top: 100,
-                    }}
-                    alt="Food"
+        <View flex={1} style={{ paddingVertical: 40, paddingHorizontal: 30 }}>
+            <SharedElement id={`item.${item.id}.bg`} style={[StyleSheet.absoluteFill]}>
+                <View
+                    style={[
+                        StyleSheet.absoluteFill,
+                        {
+                            borderRadius: 0,
+                            backgroundColor: item.bg,
+                        },
+                    ]}
                 />
-                {item.liked ? (
-                    <AntDesign
-                        name="heart"
-                        size={24}
-                        color="white"
-                        style={{ alignSelf: "flex-end", elevation: 4 }}
+            </SharedElement>
+            <VStack flex={1}>
+                <SharedElement id={`item.${item.id}.title`} style={{ position: "absolute" }}>
+                    <VStack flex={1}>
+                        <RText style={{ fontSize: 28 }}>Salad Toppings</RText>
+                        <RText light style={{ fontSize: 14, opacity: 0.6 }}>
+                            Lorem ipsum dolor sit amet,
+                        </RText>
+                    </VStack>
+                </SharedElement>
+
+                <SharedElement id={`item.${item.id}.image`}>
+                    <Image
+                        source={item.img}
+                        style={{
+                            resizeMode: "contain",
+                            width: width - 20,
+                            height: width - 20,
+                            transform: [{ translateX: -40 }],
+                            position: "absolute",
+                            top: 100,
+                            bottom: undefined,
+                        }}
+                        alt="Food"
                     />
-                ) : (
-                    <AntDesign
-                        name="hearto"
-                        size={24}
-                        color="white"
-                        style={{ alignSelf: "flex-end", elevation: 4 }}
-                    />
-                )}
-            </Box>
-        </Container>
+                </SharedElement>
+            </VStack>
+            <VStack space={3}>
+                <RText style={{ fontSize: 26 }}>${item.price}</RText>
+                <RText light style={{ lineHeight: 14 * 1.537, fontSize: 14 }}>
+                    {item.description}
+                </RText>
+                <HStack space={25}>
+                    <Center size={50} bg="#FFA800" shadow={7} rounded="full">
+                        {item.liked ? (
+                            <AntDesign
+                                name="heart"
+                                size={24}
+                                color="white"
+                                style={{ elevation: 4 }}
+                            />
+                        ) : (
+                            <AntDesign
+                                name="hearto"
+                                size={24}
+                                color="white"
+                                style={{ elevation: 4 }}
+                            />
+                        )}
+                    </Center>
+                    <Pressable
+                        flex={1}
+                        bg="#FFA800"
+                        h={50}
+                        rounded={"full"}
+                        justifyContent="center"
+                        alignItems={"center"}
+                        shadow={7}
+                    >
+                        <RText white style={{ fontSize: 18 }}>
+                            Add to Cart
+                        </RText>
+                    </Pressable>
+                </HStack>
+            </VStack>
+        </View>
     );
 }
+
+Detail.sharedElements = ({ route }) => {
+    const { id } = route.params;
+    return [{ id: `item.${id}.bg` }, { id: `item.${id}.title` }, { id: `item.${id}.image` }];
+};
