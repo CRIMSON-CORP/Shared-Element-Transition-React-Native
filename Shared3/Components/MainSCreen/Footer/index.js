@@ -1,5 +1,5 @@
 import { Center, Heading, HStack, Image, VStack, ZStack, Text } from "native-base";
-import { Assest } from "../../assets";
+import { Assest } from "../../../assets";
 const index = () => {
     return (
         <VStack space={8 / 4}>

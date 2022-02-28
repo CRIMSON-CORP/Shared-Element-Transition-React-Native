@@ -1,5 +1,5 @@
 import { Center, Image } from "native-base";
-import { Assest } from "../../../assets";
+import { Assest } from "../../../../assets";
 
 const index = () => {
     return (
