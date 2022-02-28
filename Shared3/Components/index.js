@@ -88,13 +88,11 @@ function MainScreen({ navigation }) {
                 Scroll.value = withTiming(-(DataLength - 1) * 6, {}, () => {
                     SavedStartScroll.value = Scroll.value;
                     Index.value = Math.abs(Scroll.value / 6);
-                    console.log(Scroll.value);
                 });
             } else {
                 Scroll.value = withTiming(6 * Math.floor(Scroll.value / 6), {}, () => {
                     SavedStartScroll.value = Scroll.value;
                     Index.value = Math.abs(Scroll.value / 6);
-                    console.log(Scroll.value);
                 });
             }
         },

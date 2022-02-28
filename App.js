@@ -7,12 +7,13 @@ import SharedFirst from "./screens";
 import Timer from "./TimerApp";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SliderCards from "./Shared3";
+import FoodCard from "./Shared4";
 enableScreens();
 export default function App() {
     return (
         <NavigationContainer>
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <SliderCards />
+                <FoodCard />
             </GestureHandlerRootView>
         </NavigationContainer>
     );

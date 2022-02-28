@@ -1013,7 +1013,7 @@
     pirates "^4.0.5"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.14.0", "@babel/runtime@^7.6.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.14.0", "@babel/runtime@^7.16.7", "@babel/runtime@^7.6.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7":
   version "7.17.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.2.tgz#66f68591605e59da47523c631416b18508779941"
   integrity sha512-hzeyJyMA1YGdJTuWU0e/j4wKXrU4OMFvY2MSlaI9B7VQb0r5cxTE3EAIS2Q7Tn2RIcDkRvTA/v2JsAEhxe99uw==
@@ -5388,6 +5388,13 @@ plist@^3.0.1, plist@^3.0.4:
     base64-js "^1.5.1"
     xmlbuilder "^9.0.7"
 
+polished@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-4.1.4.tgz#640293ba834109614961a700fdacbb6599fb12d0"
+  integrity sha512-Nq5Mbza+Auo7N3sQb1QMFaQiDO+4UexWuSGR7Cjb4Sw11SZIJcrrFtiZ+L0jT9MBsUsxDboHVASbCLbE1rnECg==
+  dependencies:
+    "@babel/runtime" "^7.16.7"
+
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -5588,6 +5595,13 @@ react-native-screens@~3.10.1:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-shadow-2@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-shadow-2/-/react-native-shadow-2-6.0.3.tgz#6e0944b99200eb6f4c6fc33a85265ad59d973572"
+  integrity sha512-gJP3tEEBvCus/jpclEI1RNKGsl0/nTwFzqFDdmSbqt7tLgDuy8r2oNYdn4hP1WAeT1fTH0EOh9bXDGB5ZfCV0A==
+  dependencies:
+    polished "^4.1.4"
 
 react-native-shared-element@0.8.3:
   version "0.8.3"
