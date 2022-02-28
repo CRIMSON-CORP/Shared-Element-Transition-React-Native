@@ -29,6 +29,30 @@ export const data = [
                 },
                 img: Assest.images.locations.ireland,
             },
+            {
+                id: 4,
+                location: {
+                    city: "kishimoto",
+                    country: "japan",
+                },
+                img: Assest.images.locations.japan,
+            },
+            {
+                id: 5,
+                location: {
+                    city: "Dubai",
+                    country: "u.a.e",
+                },
+                img: Assest.images.locations.canada,
+            },
+            {
+                id: 6,
+                location: {
+                    city: "cape verde",
+                    country: "south africa",
+                },
+                img: Assest.images.locations.ireland,
+            },
         ],
     },
     {
