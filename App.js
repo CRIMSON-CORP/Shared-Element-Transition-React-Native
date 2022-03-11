@@ -6,14 +6,15 @@ import { enableScreens } from "react-native-screens";
 import SharedFirst from "./screens";
 import Timer from "./TimerApp";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import SliderCards from "./Shared3";
+// import SliderCards from "./Shared3";
 import FoodCard from "./Shared4";
+import SliderCards from "./SliderCards";
 enableScreens();
 export default function App() {
     return (
         <NavigationContainer>
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <FoodCard />
+                <SliderCards />
             </GestureHandlerRootView>
         </NavigationContainer>
     );
