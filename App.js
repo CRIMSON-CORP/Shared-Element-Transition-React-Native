@@ -13,7 +13,7 @@ export default function App() {
     return (
         <NavigationContainer>
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <FoodCard />
+                <SliderCards />
             </GestureHandlerRootView>
         </NavigationContainer>
     );

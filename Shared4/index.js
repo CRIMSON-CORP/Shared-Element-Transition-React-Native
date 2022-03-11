@@ -166,29 +166,32 @@ function MainScreen({ navigation }) {
                     elevation: 5,
                 }}
             >
-                <SharedElement id={`item.${item.id}.bg`} style={[StyleSheet.absoluteFill]}>
+                <SharedElement
+                    id={`item.${item.id}.bg`}
+                    style={[{ borderRadius: 16 }, StyleSheet.absoluteFill]}
+                >
                     <View
                         style={[
-                            StyleSheet.absoluteFill,
                             {
                                 borderRadius: 16,
                                 width: CARD_WIDTH,
                                 height: CARD_HEIGHT,
+                                overflow: "hidden",
                                 backgroundColor: item.bg,
                             },
+                            StyleSheet.absoluteFill,
                         ]}
                     />
                 </SharedElement>
-                <SharedElement
-                    id={`item.${item.id}.title`}
-                    style={{ position: "absolute", top: 20, left: 20 }}
-                >
-                    <VStack flex={1}>
-                        <RText style={{ fontSize: 20 }}>Salad Toppings</RText>
-                        <RText light style={{ fontSize: 12 }}>
-                            Lorem ipsum dolor sit amet,
-                        </RText>
-                    </VStack>
+                <SharedElement id={`item.${item.id}.title`}>
+                    <Text style={{ fontSize: 20, position: "absolute", top: 20, left: 20 }}>
+                        Salad Toppings
+                    </Text>
+                </SharedElement>
+                <SharedElement id={`item.${item.id}.subtitle`}>
+                    <Text light style={{ fontSize: 12, position: "absolute", top: 40, left: 20 }}>
+                        Lorem ipsum dolor sit amet,
+                    </Text>
                 </SharedElement>
                 <SharedElement id={`item.${item.id}.image`} style={StyleSheet.absoluteFill}>
                     <Image
@@ -231,25 +234,40 @@ function Detail({ navigation, route }) {
     const item = route.params;
     return (
         <View flex={1} style={{ paddingVertical: 40, paddingHorizontal: 30 }}>
-            <SharedElement id={`item.${item.id}.bg`} style={[StyleSheet.absoluteFill]}>
+            <SharedElement
+                id={`item.${item.id}.bg`}
+                style={[{ borderRadius: 20 }, StyleSheet.absoluteFill]}
+            >
                 <View
                     style={[
-                        StyleSheet.absoluteFill,
                         {
-                            borderRadius: 0,
+                            width: width,
+                            height: height,
+                            borderRadius: 20,
                             backgroundColor: item.bg,
                         },
+                        StyleSheet.absoluteFill,
                     ]}
                 />
             </SharedElement>
             <VStack flex={1}>
-                <SharedElement id={`item.${item.id}.title`} style={{ position: "absolute" }}>
-                    <VStack flex={1}>
-                        <RText style={{ fontSize: 28 }}>Salad Toppings</RText>
-                        <RText light style={{ fontSize: 14, opacity: 0.6 }}>
-                            Lorem ipsum dolor sit amet,
-                        </RText>
-                    </VStack>
+                <SharedElement id={`item.${item.id}.title`}>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            position: "absolute",
+                            top: 20,
+                            left: 0,
+                            fontSize: 28,
+                        }}
+                    >
+                        Salad Toppings
+                    </Text>
+                </SharedElement>
+                <SharedElement id={`item.${item.id}.subtitle`}>
+                    <Text light style={{ fontSize: 12, position: "absolute", top: 50, left: 0 }}>
+                        Lorem ipsum dolor sit amet,
+                    </Text>
                 </SharedElement>
 
                 <SharedElement id={`item.${item.id}.image`}>
@@ -312,5 +330,10 @@ function Detail({ navigation, route }) {
 
 Detail.sharedElements = ({ route }) => {
     const { id } = route.params;
-    return [{ id: `item.${id}.bg` }, { id: `item.${id}.title` }, { id: `item.${id}.image` }];
+    return [
+        { id: `item.${id}.bg` },
+        { id: `item.${id}.title` },
+        { id: `item.${id}.subtitle` },
+        { id: `item.${id}.image` },
+    ];
 };

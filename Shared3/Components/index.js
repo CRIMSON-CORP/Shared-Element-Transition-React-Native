@@ -79,7 +79,7 @@ function MainScreen({ navigation }) {
     const gesture = useAnimatedGestureHandler({
         onStart: () => {},
         onActive: (e) => {
-            Scroll.value = -e.translationY / 15 + SavedStartScroll.value;
+            Scroll.value = -e.translationY / 30 + SavedStartScroll.value;
         },
         onFinish: (e) => {
             if (Scroll.value > 0) {
