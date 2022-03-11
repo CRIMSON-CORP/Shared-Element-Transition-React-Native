@@ -102,7 +102,7 @@ function MainScreen({ navigation }) {
                     <FlatList
                         data={data}
                         horizontal
-                        snapToInterval={CARD_WIDTH + CARD_SPACE}
+                        snapToInterval={CARD_WIDTH + CARD_SPACE / 4}
                         keyExtractor={(item) => item.id}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{
@@ -164,14 +164,14 @@ function MainScreen({ navigation }) {
                     height: CARD_HEIGHT,
                     marginRight: CARD_SPACE / 4,
                     elevation: 5,
-                    borderRadius: 16,
-                    overflow: "hidden",
                 }}
             >
                 <SharedElement id={`item.${item.id}.bg`} style={[StyleSheet.absoluteFill]}>
                     <View
                         style={[
                             {
+                                borderRadius: 16,
+                                overflow: "hidden",
                                 width: CARD_WIDTH,
                                 height: CARD_HEIGHT,
                                 backgroundColor: item.bg,
@@ -181,14 +181,14 @@ function MainScreen({ navigation }) {
                     />
                 </SharedElement>
                 <SharedElement id={`item.${item.id}.title`}>
-                    <Text style={{ fontSize: 20, position: "absolute", top: 20, left: 20 }}>
+                    <RText style={{ fontSize: 20, position: "absolute", top: 20, left: 20 }}>
                         Salad Toppings
-                    </Text>
+                    </RText>
                 </SharedElement>
                 <SharedElement id={`item.${item.id}.subtitle`}>
-                    <Text light style={{ fontSize: 12, position: "absolute", top: 40, left: 20 }}>
+                    <RText light style={{ fontSize: 12, position: "absolute", top: 40, left: 20 }}>
                         Lorem ipsum dolor sit amet,
-                    </Text>
+                    </RText>
                 </SharedElement>
                 <SharedElement id={`item.${item.id}.image`} style={StyleSheet.absoluteFill}>
                     <Image
@@ -231,13 +231,11 @@ function Detail({ navigation, route }) {
     const item = route.params;
     return (
         <View flex={1} style={{ paddingVertical: 40, paddingHorizontal: 30 }}>
-            <SharedElement
-                id={`item.${item.id}.bg`}
-                style={[{ borderRadius: 20 }, StyleSheet.absoluteFill]}
-            >
+            <SharedElement id={`item.${item.id}.bg`} style={StyleSheet.absoluteFill}>
                 <View
                     style={[
                         {
+                            borderRadius: 0,
                             backgroundColor: item.bg,
                         },
                         StyleSheet.absoluteFill,
@@ -246,7 +244,7 @@ function Detail({ navigation, route }) {
             </SharedElement>
             <VStack flex={1}>
                 <SharedElement id={`item.${item.id}.title`}>
-                    <Text
+                    <RText
                         style={{
                             fontSize: 20,
                             position: "absolute",
@@ -256,12 +254,12 @@ function Detail({ navigation, route }) {
                         }}
                     >
                         Salad Toppings
-                    </Text>
+                    </RText>
                 </SharedElement>
                 <SharedElement id={`item.${item.id}.subtitle`}>
-                    <Text light style={{ fontSize: 12, position: "absolute", top: 50, left: 0 }}>
+                    <RText light style={{ fontSize: 12, position: "absolute", top: 50, left: 0 }}>
                         Lorem ipsum dolor sit amet,
-                    </Text>
+                    </RText>
                 </SharedElement>
 
                 <SharedElement id={`item.${item.id}.image`}>
