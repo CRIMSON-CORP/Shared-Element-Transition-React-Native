@@ -164,19 +164,16 @@ function MainScreen({ navigation }) {
                     height: CARD_HEIGHT,
                     marginRight: CARD_SPACE / 4,
                     elevation: 5,
+                    borderRadius: 16,
+                    overflow: "hidden",
                 }}
             >
-                <SharedElement
-                    id={`item.${item.id}.bg`}
-                    style={[{ borderRadius: 16 }, StyleSheet.absoluteFill]}
-                >
+                <SharedElement id={`item.${item.id}.bg`} style={[StyleSheet.absoluteFill]}>
                     <View
                         style={[
                             {
-                                borderRadius: 16,
                                 width: CARD_WIDTH,
                                 height: CARD_HEIGHT,
-                                overflow: "hidden",
                                 backgroundColor: item.bg,
                             },
                             StyleSheet.absoluteFill,
@@ -241,9 +238,6 @@ function Detail({ navigation, route }) {
                 <View
                     style={[
                         {
-                            width: width,
-                            height: height,
-                            borderRadius: 20,
                             backgroundColor: item.bg,
                         },
                         StyleSheet.absoluteFill,
