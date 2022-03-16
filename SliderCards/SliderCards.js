@@ -5,7 +5,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 import { enableScreens } from "react-native-screens";
 import Cards from "./Cards";
-
+import CardsFling from "./Cards/CardsFling";
 enableScreens();
 const SharedStack = createSharedElementStackNavigator();
 export default function SldierCards() {
@@ -17,7 +17,7 @@ export default function SldierCards() {
                         headerMode: "none",
                     }}
                 >
-                    <SharedStack.Screen name="Cards" component={Cards} />
+                    <SharedStack.Screen name="Cards" component={CardsFling} />
                 </SharedStack.Navigator>
             </GestureHandlerRootView>
         </NativeBaseProvider>
