@@ -1,44 +1,21 @@
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Dimensions, Image, StatusBar, StyleSheet, Text, View } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { PanGestureHandler, FlingGestureHandler, Directions } from "react-native-gesture-handler";
 import Animated, {
     interpolate,
+    log,
     useAnimatedGestureHandler,
     useAnimatedStyle,
     useSharedValue,
+    withSpring,
     withTiming,
 } from "react-native-reanimated";
 const { width, height } = Dimensions.get("window");
 const Cards = () => {
-    const Scroll = useSharedValue(0);
     const SavedStartScroll = useSharedValue(0);
-    const Index = useSharedValue(0);
-    const gesture = useAnimatedGestureHandler({
-        onStart: () => {},
-        onActive: (e) => {
-            Scroll.value = e.translationX / 30 + SavedStartScroll.value;
-        },
-        onFinish: (e) => {
-            if (Scroll.value > 0) {
-                Scroll.value = withTiming(0, {}, () => {
-                    SavedStartScroll.value = Scroll.value;
-                    Index.value = Math.abs(Scroll.value / 6);
-                });
-            } else if (Scroll.value < -(data.length - 1) * 6) {
-                Scroll.value = withTiming(-(data.length - 1) * 6, {}, () => {
-                    SavedStartScroll.value = Scroll.value;
-                    Index.value = Math.abs(Scroll.value / 6);
-                });
-            } else {
-                Scroll.value = withTiming(6 * Math.round(Scroll.value / 6), {}, () => {
-                    SavedStartScroll.value = Scroll.value;
-                    Index.value = Math.abs(Scroll.value / 6);
-                });
-            }
-        },
-    });
-
+    const Scroll = useSharedValue(0);
+    const Index = useSharedValue(Scroll.value / 6);
     const AnimatedProfileStyles = useAnimatedStyle(() => ({
         transform: [{ translateY: interpolate(Scroll.value, [0, 23.5], [0, data.length * 45]) }],
     }));
@@ -75,13 +52,37 @@ const Cards = () => {
                     ))}
                 </Animated.View>
             </View>
-            <PanGestureHandler onGestureEvent={gesture}>
-                <Animated.View style={{ marginTop: 20, flex: 1 }}>
-                    {data.map((item, index) => (
-                        <Card item={item} index={index} Scroll={Scroll} key={item.id} />
-                    ))}
-                </Animated.View>
-            </PanGestureHandler>
+            <FlingGestureHandler
+                direction={Directions.RIGHT}
+                onEnded={() => {
+                    Scroll.value = withSpring(
+                        Scroll.value >= 0 ? 0 : Math.floor(Scroll.value + 6),
+                        {
+                            damping: 100,
+                        }
+                    );
+                }}
+            >
+                <FlingGestureHandler
+                    direction={Directions.LEFT}
+                    onEnded={() =>
+                        (Scroll.value = withSpring(
+                            Scroll.value <= -Math.floor((data.length - 1) * 6)
+                                ? -Math.floor((data.length - 1) * 6)
+                                : Math.floor(Scroll.value - 6),
+                            {
+                                damping: 100,
+                            }
+                        ))
+                    }
+                >
+                    <Animated.View style={{ marginTop: 20, flex: 1 }}>
+                        {data.map((item, index) => (
+                            <Card item={item} index={index} Scroll={Scroll} key={item.id} />
+                        ))}
+                    </Animated.View>
+                </FlingGestureHandler>
+            </FlingGestureHandler>
         </View>
     );
 };
